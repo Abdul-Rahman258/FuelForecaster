@@ -1,7 +1,12 @@
 "use client";
 import React, { useState, useEffect } from "react";
 
-export default function GlobalImpactWidget() {
+interface GlobalImpactWidgetProps {
+  activeSavings?: number;
+  selectedCarName?: string;
+}
+
+export default function GlobalImpactWidget({ activeSavings, selectedCarName }: GlobalImpactWidgetProps) {
   // Static placeholder until connected to live Google Analytics API
   const citizens = 14592840;
 
