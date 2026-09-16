@@ -1,0 +1,63 @@
+// Prisma Schema for FuelForecast PK
+// PostgreSQL Database Connection & Models
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Historical record of daily OGRA inputs & pump prices
+model PetrolPriceRecord {
+  id          String   @id @default(uuid())
+  date        DateTime @unique
+  actualPrice Float    // Domestic retail price in PKR/L
+  oilPrice    Float    // Brent Crude / Platts spot in USD/barrel
+  usdPkrRate  Float    // USD to PKR interbank foreign exchange rate
+  avgOil7d    Float    // 7-working-day rolling average international oil price
+  avgPkr7d    Float    // 7-working-day rolling average USD/PKR
+  cAndFPkr    Float    // Estimated C&F (avgOil7d * avgPkr7d)
+  createdAt   DateTime @default(now())
+
+  @@index([date])
+}
+
+// Machine Learning Daily Predictions for Tomorrow
+model DailyPrediction {
+  id              String   @id @default(uuid())
+  targetDate      DateTime @unique
+  predictedPrice  Float    // Predicted tomorrow pump price in PKR/L
+  basePrice       Float    // Today's base price in PKR/L
+  expectedDelta   Float    // Price change in PKR (+ for hike, - for drop)
+  direction       String   // "HIKE", "DROP", or "STABLE"
+  advice          String   // e.g. "Fill up before midnight!" or "Hold on! Wait until tomorrow morning."
+  confidenceScore Float    // Model R2 or confidence metric (0.0 to 1.0)
+  modelVersion    String   @default("XGBRegressor-v1")
+  createdAt       DateTime @default(now())
+
+  @@index([targetDate])
+}
+
+// Live Aggregate Global Impact Metrics
+model GlobalStats {
+  id              String   @id @default("global-stats-singleton")
+  totalCarsHelped Int      @default(14820)
+  totalPkrSaved   Float    @default(4892400.0)
+  updatedAt       DateTime @updatedAt
+}
+
+// Individual User Feedback & Savings Registry
+model UserFeedback {
+  id          String   @id @default(uuid())
+  carModel    String
+  fuelLevel   Float    // Percentage 0-100
+  litersSaved Float    // Tank Liters filled/deferred
+  pkrSaved    Float    // Net PKR saved by user
+  helped      Boolean  @default(true)
+  createdAt   DateTime @default(now())
+
+  @@index([createdAt])
+}

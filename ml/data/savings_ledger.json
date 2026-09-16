@@ -1,0 +1,63 @@
+{
+  "totalCarsHelped": 18453,
+  "totalPkrSaved": 6843790,
+  "totalLitersSaved": 428925,
+  "carBreakdown": {
+    "Suzuki Alto VXL AGS": 6421,
+    "Toyota Corolla Altis 1.6": 3810,
+    "Honda Civic Oriel / RS": 2950,
+    "Suzuki Cultus VXL": 1940,
+    "Changan Alsvin Lumiere": 1120,
+    "Kia Sportage AWD": 860,
+    "Toyota Yaris ATIV X": 780,
+    "Hyundai Tucson FWD": 410,
+    "Haval H6 HEV": 162
+  },
+  "fuelBreakdown": {
+    "petrol": 14211,
+    "diesel": 2972,
+    "hobc": 1270
+  },
+  "recentSavings": [
+    {
+      "id": "sv-1789121143525",
+      "timestamp": "2026-09-11T10:05:43.525Z",
+      "carModel": "Suzuki Alto VXL AGS",
+      "fuelType": "Super Petrol (92 RON)",
+      "litersSaved": 25,
+      "pkrSaved": 210
+    },
+    {
+      "id": "sv-1",
+      "timestamp": "2026-09-11T09:30:00Z",
+      "carModel": "Suzuki Alto VXL AGS",
+      "fuelType": "Super Petrol (92 RON)",
+      "litersSaved": 21.6,
+      "pkrSaved": 185
+    },
+    {
+      "id": "sv-2",
+      "timestamp": "2026-09-11T09:15:00Z",
+      "carModel": "Toyota Corolla Altis 1.6",
+      "fuelType": "Super Petrol (92 RON)",
+      "litersSaved": 35,
+      "pkrSaved": 295
+    },
+    {
+      "id": "sv-3",
+      "timestamp": "2026-09-11T08:50:00Z",
+      "carModel": "Kia Sportage AWD",
+      "fuelType": "Super Petrol (92 RON)",
+      "litersSaved": 44,
+      "pkrSaved": 370
+    },
+    {
+      "id": "sv-4",
+      "timestamp": "2026-09-11T08:22:00Z",
+      "carModel": "Toyota Hilux Revo",
+      "fuelType": "High Speed Diesel (HSD)",
+      "litersSaved": 55,
+      "pkrSaved": 485
+    }
+  ]
+}

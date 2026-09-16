@@ -1,0 +1,35 @@
+name: Daily Price Scraper
+
+on:
+  schedule:
+    # Runs at 02:00 AM PKT (which is 21:00 UTC) to account for late updates in Pakistan
+    - cron: '0 21 * * *'
+  workflow_dispatch: # Allows manual trigger from GitHub UI
+
+jobs:
+  scrape-and-update:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+
+      - name: Install Dependencies
+        run: |
+          pip install requests bs4
+
+      - name: Run Midnight Scraper
+        run: |
+          python ml/live_updater.py
+
+      - name: Commit Updated Rates
+        run: |
+          git config --global user.name 'github-actions[bot]'
+          git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+          git add ml/data/live_rates.json
+          git commit -m "Auto-update: Synchronized live petrol rates at midnight" || echo "No changes to commit"
+          git push

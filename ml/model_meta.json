@@ -1,0 +1,29 @@
+{
+  "model_name": "FuelForecast PK XGBoost Regressor",
+  "algorithm": "XGBRegressor",
+  "features": [
+    "7_day_avg_oil",
+    "7_day_avg_pkr",
+    "estimated_c_and_f_pkr",
+    "c_and_f_delta_pkr",
+    "imf_pdl_shortfall",
+    "petrol_price_yesterday"
+  ],
+  "target": "price_delta_tomorrow",
+  "train_samples": 334,
+  "test_samples": 84,
+  "metrics": {
+    "test_mae_pkr": 1.31,
+    "test_rmse_pkr": 3.0,
+    "r2_score": 0.2314
+  },
+  "feature_importances": {
+    "7_day_avg_oil": 0.1147,
+    "7_day_avg_pkr": 0.0784,
+    "estimated_c_and_f_pkr": 0.0881,
+    "c_and_f_delta_pkr": 0.5197,
+    "imf_pdl_shortfall": 0.0,
+    "petrol_price_yesterday": 0.1991
+  },
+  "trained_at": "2026-09-14 15:05:32.900897"
+}
