@@ -219,6 +219,34 @@ def get_current_features(headline: Optional[str] = None):
             x = pd.DataFrame([latest])
             delta_petrol = float(model.predict(x)[0])
 
+    # --- LIVE DATA INJECTION ---
+    petrol_base = 384.34
+    diesel_base = 415.83
+    hobc_base = 400.95
+    live_cache_file = os.path.join(BASE_DIR, "data", "live_rates.json")
+    if os.path.exists(live_cache_file):
+        try:
+            with open(live_cache_file, "r") as f:
+                c_data = json.load(f)
+                if "macro_indicators" in c_data:
+                    live_oil = c_data["macro_indicators"].get("brent_crude", avg_oil)
+                    live_pkr = c_data["macro_indicators"].get("usd_pkr", avg_pkr)
+                    avg_oil = live_oil
+                    avg_pkr = live_pkr
+                    new_c_and_f = round(live_oil * live_pkr, 2)
+                    prev_c_and_f = latest["estimated_c_and_f_pkr"] if latest else new_c_and_f
+                    # Overwrite raw_delta which gets used by Expert 1
+                    if latest:
+                        latest["c_and_f_delta_pkr"] = round((new_c_and_f - prev_c_and_f) / 158.987, 2)
+                    c_and_f = new_c_and_f
+                if "rates" in c_data:
+                    petrol_base = float(c_data["rates"].get("petrol", petrol_base))
+                    diesel_base = float(c_data["rates"].get("diesel", diesel_base))
+                    hobc_base = float(c_data["rates"].get("hobc", hobc_base))
+        except Exception:
+            pass
+    # ---------------------------
+
     # ---------------------------------------------------------
     # NLP NEWS RADAR INTEGRATION
     # ---------------------------------------------------------
@@ -291,22 +319,7 @@ def get_current_features(headline: Optional[str] = None):
         }
     }
 
-    # Official baseline anchors (auto-updated from live web crawler if present)
-    petrol_base = 375.81
-    diesel_base = 403.04
-    hobc_base = 430.00
-
-    live_cache_file = os.path.join(BASE_DIR, "data", "live_rates.json")
-    if os.path.exists(live_cache_file):
-        try:
-            with open(live_cache_file, "r") as f:
-                c_data = json.load(f)
-                if "rates" in c_data:
-                    petrol_base = float(c_data["rates"].get("petrol", petrol_base))
-                    diesel_base = float(c_data["rates"].get("diesel", diesel_base))
-                    hobc_base = float(c_data["rates"].get("hobc", hobc_base))
-        except Exception:
-            pass
+    # Official baseline anchors (already updated from live_rates.json above)
 
     # ---------------------------------------------------------
     # 3-DAY FORECASTING SIMULATION
