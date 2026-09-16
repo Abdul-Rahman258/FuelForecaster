@@ -54,7 +54,25 @@ export async function GET() {
     // Dynamic read fallback
   }
 
-  // 2. Query FastAPI microservice (if active)
+  // 2. Query Pre-Calculated Daily ML Predictions (Generated at 2:00 AM by GitHub)
+  try {
+    const cachePath = path.join(process.cwd(), "ml", "data", "predictions_cache.json");
+    if (fs.existsSync(cachePath)) {
+      const data = JSON.parse(fs.readFileSync(cachePath, "utf-8"));
+      if (data.fuels) {
+        oil7d = data["7_day_avg_oil"] || oil7d;
+        pkr7d = data["7_day_avg_pkr"] || pkr7d;
+        cAndF = data["estimated_c_and_f_pkr"] || cAndF;
+        delta = data.fuels.petrol.expectedDelta || delta;
+        // Early return if cache is perfect
+        return NextResponse.json(data);
+      }
+    }
+  } catch (e) {
+    // Cache read fallback
+  }
+
+  // 3. Query FastAPI microservice (if running locally during dev)
   try {
     const res = await fetch(`${fastApiUrl}/features/current`, {
       cache: "no-store",
@@ -62,15 +80,10 @@ export async function GET() {
     });
     if (res.ok) {
       const data = await res.json();
-      if (data.fuels) {
-        oil7d = data["7_day_avg_oil"] || oil7d;
-        pkr7d = data["7_day_avg_pkr"] || pkr7d;
-        cAndF = data["estimated_c_and_f_pkr"] || cAndF;
-        delta = data.fuels.petrol.expectedDelta || delta;
-      }
+      return NextResponse.json(data);
     }
   } catch (e) {
-    // FastAPI offline or restarting
+    // FastAPI offline
   }
 
   // 3. REGULATORY DELTA & CIRCUIT BREAKER:

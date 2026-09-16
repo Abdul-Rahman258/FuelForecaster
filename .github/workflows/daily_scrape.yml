@@ -20,16 +20,19 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          pip install requests bs4
+          pip install -r ml/requirements.txt
 
-      - name: Run Midnight Scraper
+      - name: Run Midnight Scraper & AI Model
+        env:
+          PYTHONPATH: .
         run: |
           python ml/live_updater.py
+          python ml/generate_daily_predictions.py
 
       - name: Commit Updated Rates
         run: |
           git config --global user.name 'github-actions[bot]'
           git config --global user.email 'github-actions[bot]@users.noreply.github.com'
-          git add ml/data/live_rates.json
-          git commit -m "Auto-update: Synchronized live petrol rates at midnight" || echo "No changes to commit"
+          git add ml/data/live_rates.json ml/data/predictions_cache.json
+          git commit -m "Auto-update: Synchronized live petrol rates and ML predictions at midnight" || echo "No changes to commit"
           git push
