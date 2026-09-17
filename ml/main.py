@@ -301,19 +301,39 @@ def get_current_features(headline: Optional[str] = None):
     final_delta_petrol = (e1_math * w1) + (e2_xgb * w2) + (e3_news * w3) + (e4_llm * w4) + (e5_stealth * w5)
     
     # Actually, the stealth tax is additive in the real world (Math + Stealth Tax). 
-    # Let's override the weighted logic for the final price to represent reality:
     # Final Price = (Math Base) + (Stealth Tax if FBR is broke) + (News Panic Shock)
-    # This is a purely deterministic equation now!
-    final_delta_petrol = e1_math + e5_stealth + e3_news
+    raw_unsubsidized_delta = e1_math + e5_stealth + e3_news
     
+    # ---------------------------------------------------------
+    # EXPERT 6: Political Constraint Expert (The Subsidizer)
+    # ---------------------------------------------------------
+    projected_price = petrol_base + raw_unsubsidized_delta
+    political_subsidy = 0.0
+    
+    # Rule 1: The Psychological 400 PKR Barrier
+    # If the price pushes close to or over 400 with a large jump, the government 
+    # will panic-subsidize (slash PDL or take circular debt) to protect political capital.
+    if projected_price >= 395.00 and raw_unsubsidized_delta > 6.0:
+        # Government historically absorbs ~55-65% of the shock in this exact scenario.
+        political_subsidy = -(raw_unsubsidized_delta * 0.58)
+        
+    # Rule 2: General Extreme Shock Absorber
+    # Any sudden jump > 12 PKR causes massive backlash, so they eat ~45% of it.
+    elif raw_unsubsidized_delta > 12.0:
+        political_subsidy = -(raw_unsubsidized_delta * 0.45)
+        
+    final_delta_petrol = raw_unsubsidized_delta + political_subsidy
     delta_petrol = round(final_delta_petrol, 2)
 
     orchestrator_summary = {
         "final_delta": delta_petrol,
+        "raw_economic_cost": round(raw_unsubsidized_delta, 2),
+        "political_subsidy_applied": round(political_subsidy, 2),
         "experts": {
             "Mathematician (OGRA)": {"prediction": round(e1_math, 2), "weight": 1.0},
             "The Insider (FBR Tracker)": {"prediction": round(e5_stealth, 2), "weight": 1.0},
             "News Radar (NLP)": {"prediction": round(e3_news, 2), "weight": 1.0},
+            "Political Constraint Expert": {"prediction": round(political_subsidy, 2), "weight": 1.0},
             "Historian (XGBoost)": {"prediction": round(e2_xgb, 2), "weight": 0.0},
             "LLM Economist": {"prediction": round(e4_llm, 2), "weight": 0.0}
         }
