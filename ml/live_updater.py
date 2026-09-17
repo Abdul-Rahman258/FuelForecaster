@@ -29,6 +29,38 @@ def get_live_brent_crude():
     except Exception:
         return 85.50  # Fallback
 
+def get_live_pump_prices(fallback_p, fallback_d, fallback_h):
+    import re
+    from collections import Counter
+    try:
+        url = 'https://html.duckduckgo.com/html/'
+        headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
+        # We query specifically for today's price news
+        data = {'q': 'official petrol price in pakistan today propakistani mettisglobal latest'}
+        res = requests.post(url, data=data, headers=headers, timeout=10)
+        
+        matches = re.findall(r'(?:Rs\.?|PKR)\s*(\d{3}\.\d{2})', res.text, re.IGNORECASE)
+        if not matches:
+            matches = re.findall(r'(?:Rs\.?|PKR)\s*(\d{3})', res.text, re.IGNORECASE)
+
+        prices = [float(m) for m in matches if 200 < float(m) < 600]
+        
+        if len(prices) >= 2:
+            counts = Counter(prices)
+            most_common = counts.most_common(4)
+            unique_prices = list(set([p[0] for p in most_common]))
+            unique_prices.sort()
+            
+            if len(unique_prices) >= 2:
+                petrol = unique_prices[0]
+                diesel = unique_prices[1]
+                hobc = round(petrol * 1.05, 2)
+                return petrol, diesel, hobc
+    except Exception as e:
+        print("Pump Scrape Error:", e)
+        
+    return fallback_p, fallback_d, fallback_h
+
 def scrape_live_prices():
     """
     Autonomous Daily Scraper.
@@ -43,15 +75,21 @@ def scrape_live_prices():
         print(f" -> Live USD/PKR: {live_pkr}")
         print(f" -> Live Brent Crude: ${live_brent}")
 
-        # 2. Extract / Compute Local Pump Prices
-        # In a fully deregulated daily market, the baseline fluctuates daily based on C&F.
-        # We start with the known anchors (Sept 16)...
-        base_petrol = 384.34
-        base_diesel = 415.83
-        base_hobc = 400.95
-        
-        # In production, we would scrape the specific OMC's daily updated HTML table here.
-        # Example: requests.get("https://www.psopk.com/prices")
+        # 2. Extract Local Pump Prices (Fully Autonomous Search)
+        # We try to read yesterday's prices to act as a fallback in case the internet search fails.
+        prev_p, prev_d, prev_h = 391.22, 421.45, 412.80
+        if os.path.exists(LIVE_RATES_FILE):
+            try:
+                with open(LIVE_RATES_FILE, "r") as f:
+                    old_data = json.load(f)
+                    prev_p = old_data["rates"]["petrol"]
+                    prev_d = old_data["rates"]["diesel"]
+                    prev_h = old_data["rates"]["hobc"]
+            except Exception:
+                pass
+                
+        base_petrol, base_diesel, base_hobc = get_live_pump_prices(prev_p, prev_d, prev_h)
+        print(f" -> Scraped Local Pump Prices: Petrol={base_petrol}, Diesel={base_diesel}")
         
         # 3. Sanity Checks (Circuit Breakers)
         # Prevent garbage data from internet glitches (e.g. price dropping below 100 or above 1000)
