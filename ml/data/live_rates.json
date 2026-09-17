@@ -6,8 +6,8 @@
         "brent_crude": 104.15
     },
     "rates": {
-        "petrol": 384.34,
-        "diesel": 391.22,
-        "hobc": 403.56
+        "petrol": 391.22,
+        "diesel": 421.45,
+        "hobc": 412.8
     }
 }

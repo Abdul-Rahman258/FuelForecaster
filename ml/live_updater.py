@@ -75,8 +75,9 @@ def scrape_live_prices():
         print(f" -> Live USD/PKR: {live_pkr}")
         print(f" -> Live Brent Crude: ${live_brent}")
 
-        # 2. Extract Local Pump Prices (Fully Autonomous Search)
-        # We try to read yesterday's prices to act as a fallback in case the internet search fails.
+        # 2. Extract Local Pump Prices
+        # Because unregulated web scraping for exact numbers is brittle, 
+        # we rely on the verified live_rates.json as the master source of truth.
         prev_p, prev_d, prev_h = 391.22, 421.45, 412.80
         if os.path.exists(LIVE_RATES_FILE):
             try:
@@ -88,8 +89,8 @@ def scrape_live_prices():
             except Exception:
                 pass
                 
-        base_petrol, base_diesel, base_hobc = get_live_pump_prices(prev_p, prev_d, prev_h)
-        print(f" -> Scraped Local Pump Prices: Petrol={base_petrol}, Diesel={base_diesel}")
+        base_petrol, base_diesel, base_hobc = prev_p, prev_d, prev_h
+        print(f" -> Active Local Pump Prices: Petrol={base_petrol}, Diesel={base_diesel}")
         
         # 3. Sanity Checks (Circuit Breakers)
         # Prevent garbage data from internet glitches (e.g. price dropping below 100 or above 1000)

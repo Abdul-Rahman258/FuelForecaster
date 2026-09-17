@@ -1,16 +1,18 @@
 {
     "status": "ready",
     "date": "2026-09-17",
-    "7_day_avg_oil": 104.15,
+    "7_day_avg_oil": 103.83,
     "7_day_avg_pkr": 277.51,
-    "estimated_c_and_f_pkr": 28902.67,
+    "estimated_c_and_f_pkr": 28813.86,
     "confidence_score": 0.9712,
     "fiscal_panic_score": 0.0,
     "orchestrator": {
-        "final_delta": 13.46,
+        "final_delta": 5.4,
+        "raw_economic_cost": 12.85,
+        "political_subsidy_applied": -7.45,
         "experts": {
             "Mathematician (OGRA)": {
-                "prediction": 11.04,
+                "prediction": 10.43,
                 "weight": 1.0
             },
             "The Insider (FBR Tracker)": {
@@ -19,6 +21,10 @@
             },
             "News Radar (NLP)": {
                 "prediction": 0.0,
+                "weight": 1.0
+            },
+            "Political Constraint Expert": {
+                "prediction": -7.45,
                 "weight": 1.0
             },
             "Historian (XGBoost)": {
@@ -34,18 +40,18 @@
     "forecast_3_day": [
         {
             "day": 1,
-            "price": 397.8,
-            "delta": 13.46
+            "price": 396.62,
+            "delta": 5.4
         },
         {
             "day": 2,
-            "price": 404.53,
-            "delta": 6.73
+            "price": 399.32,
+            "delta": 2.7
         },
         {
             "day": 3,
-            "price": 407.9,
-            "delta": 3.37
+            "price": 400.67,
+            "delta": 1.35
         }
     ],
     "fuels": {
@@ -54,9 +60,9 @@
             "name": "Super Petrol (92 RON)",
             "shortName": "Super 92",
             "badge": "OGRA Regulated",
-            "todayPrice": 384.34,
-            "predictedPrice": 397.8,
-            "expectedDelta": 13.46,
+            "todayPrice": 391.22,
+            "predictedPrice": 396.62,
+            "expectedDelta": 5.4,
             "direction": "HIKE",
             "advice": "Fill up before midnight!"
         },
@@ -65,9 +71,9 @@
             "name": "High Speed Diesel (HSD)",
             "shortName": "Diesel HSD",
             "badge": "Commercial / SUV",
-            "todayPrice": 391.22,
-            "predictedPrice": 406.3,
-            "expectedDelta": 15.08,
+            "todayPrice": 421.45,
+            "predictedPrice": 427.5,
+            "expectedDelta": 6.05,
             "direction": "HIKE",
             "advice": "Fill up before midnight!"
         },
@@ -76,9 +82,9 @@
             "name": "High Octane (RON 95 / 97)",
             "shortName": "High Octane 95/97",
             "badge": "Turbo & Luxury",
-            "todayPrice": 403.56,
-            "predictedPrice": 419.44,
-            "expectedDelta": 15.88,
+            "todayPrice": 412.8,
+            "predictedPrice": 419.17,
+            "expectedDelta": 6.37,
             "direction": "HIKE",
             "advice": "Fill up before midnight!"
         }
