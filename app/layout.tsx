@@ -1,10 +1,11 @@
 import type { Metadata } from "next";
-import { Merriweather, Inter, JetBrains_Mono } from "next/font/google";
+import { Merriweather, Inter, JetBrains_Mono, Noto_Nastaliq_Urdu } from "next/font/google";
 import "./globals.css";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const merriweather = Merriweather({ weight: ["300", "400", "700", "900"], subsets: ["latin"], variable: "--font-merriweather" });
 const jetbrains = JetBrains_Mono({ subsets: ["latin"], variable: "--font-jetbrains" });
+const urduFont = Noto_Nastaliq_Urdu({ weight: ["400", "700"], subsets: ["arabic"], variable: "--font-urdu" });
 
 export const metadata: Metadata = {
   title: "The Fuel Forecaster | Institutional Fuel Intelligence",
@@ -24,7 +25,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`scroll-smooth ${inter.variable} ${merriweather.variable} ${jetbrains.variable}`}>
+    <html lang="en" className={`scroll-smooth ${inter.variable} ${merriweather.variable} ${jetbrains.variable} ${urduFont.variable}`}>
       <body className="min-h-screen bg-[#F9F9F4] text-[#1C1C1C] antialiased selection:bg-[#1C1C1C] selection:text-[#F9F9F4] font-sans">
         {children}
       </body>
