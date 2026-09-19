@@ -6,6 +6,9 @@ const nextConfig = {
   },
   experimental: {
     serverComponentsExternalPackages: ["@prisma/client"],
+    outputFileTracingIncludes: {
+      '/api/**/*': ['./ml/data/**/*'],
+    },
   },
 };
 
