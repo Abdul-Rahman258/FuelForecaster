@@ -60,7 +60,7 @@ export default function Home() {
   const [activeCarName, setActiveCarName] = useState<string>("Suzuki Alto VXL AGS");
 
   useEffect(() => {
-    fetch("/api/predictions/today")
+    fetch(`/api/predictions/today?t=${new Date().getTime()}`, { cache: 'no-store' })
       .then((res) => res.json())
       .then((json) => {
         if (json && json.fuels) {
