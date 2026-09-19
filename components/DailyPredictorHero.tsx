@@ -12,6 +12,8 @@ import {
   Zap,
 } from "lucide-react";
 
+import { useLanguage } from "@/lib/useLanguage";
+
 export interface FuelData {
   id: string;
   name: string;
@@ -37,6 +39,7 @@ export default function DailyPredictorHero({
   onSelectFuelKey,
   confidenceScore = 0.9712,
 }: HeroProps) {
+  const { lang } = useLanguage();
   const currentFuel: FuelData = fuels[selectedFuelKey] || fuels["petrol"] || {
     id: "petrol",
     name: "Super Petrol (92 RON)",
@@ -55,12 +58,17 @@ export default function DailyPredictorHero({
     <section className="pt-4 pb-8">
       <div className="mx-auto max-w-5xl px-6">
         {/* Main Headline Section (Newspaper style) */}
-        <div className="text-center mb-6">
+        <div className={`text-center mb-6 ${lang === 'ur' ? 'font-urdu' : ''}`}>
           <h1 className="text-4xl sm:text-5xl md:text-6xl font-serif font-black tracking-tight text-[#1C1C1C] leading-[1.05]">
-            {isHike ? "PETROL PRICES PROJECTED TO SURGE" : "PETROL PRICES EXPECTED TO DROP"}
+            {lang === 'ur' 
+              ? (isHike ? "پٹرول کی قیمتوں میں اضافے کا امکان" : "پٹرول کی قیمتوں میں کمی متوقع")
+              : (isHike ? "PETROL PRICES PROJECTED TO SURGE" : "PETROL PRICES EXPECTED TO DROP")}
           </h1>
           <p className="mt-3 max-w-3xl mx-auto text-base sm:text-lg text-[#1C1C1C]/80 leading-relaxed font-serif">
-            Institutional tracking of IMF mandates and Federal Board of Revenue deficits reveals a highly probable {isHike ? "increase" : "decrease"} in petroleum levies before midnight. 
+            {lang === 'ur'
+              ? (isHike ? "عالمی منڈی اور آئی ایم ایف کے دباؤ کے باعث آج رات پٹرول کی قیمتوں میں اضافے کا قوی امکان ہے۔" : "عالمی منڈی میں استحکام کے باعث آج رات پٹرول کی قیمتوں میں کمی کا امکان ہے۔")
+              : `Institutional tracking of IMF mandates and Federal Board of Revenue deficits reveals a highly probable ${isHike ? "increase" : "decrease"} in petroleum levies before midnight.`
+            }
           </p>
         </div>
 
