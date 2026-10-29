@@ -1,9 +1,9 @@
 {
-    "last_updated": "2026-10-28T00:19:07.766782",
+    "last_updated": "2026-10-29T00:40:58.469742",
     "source": "Autonomous Daily Scraper (Live API + Web)",
     "macro_indicators": {
-        "usd_pkr": 277.05,
-        "brent_crude": 109.98
+        "usd_pkr": 276.91,
+        "brent_crude": 110.87
     },
     "rates": {
         "petrol": 390.79,
