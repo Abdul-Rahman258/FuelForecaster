@@ -1,18 +1,18 @@
 {
     "status": "ready",
-    "date": "2026-11-07",
-    "7_day_avg_oil": 97.76,
-    "7_day_avg_pkr": 276.46,
-    "estimated_c_and_f_pkr": 27026.73,
+    "date": "2026-11-08",
+    "7_day_avg_oil": 98.32,
+    "7_day_avg_pkr": 276.58,
+    "estimated_c_and_f_pkr": 27193.35,
     "confidence_score": 0.9712,
     "fiscal_panic_score": 0.0,
     "orchestrator": {
-        "final_delta": 0.48,
-        "raw_economic_cost": 0.48,
+        "final_delta": 1.64,
+        "raw_economic_cost": 1.64,
         "political_subsidy_applied": 0.0,
         "experts": {
             "Mathematician (OGRA)": {
-                "prediction": -1.94,
+                "prediction": -0.78,
                 "weight": 1.0
             },
             "The Insider (FBR Tracker)": {
@@ -40,18 +40,18 @@
     "forecast_3_day": [
         {
             "day": 1,
-            "price": 391.27,
-            "delta": 0.48
+            "price": 392.43,
+            "delta": 1.64
         },
         {
             "day": 2,
-            "price": 391.51,
-            "delta": 0.24
+            "price": 393.25,
+            "delta": 0.82
         },
         {
             "day": 3,
-            "price": 391.63,
-            "delta": 0.12
+            "price": 393.66,
+            "delta": 0.41
         }
     ],
     "fuels": {
@@ -61,10 +61,10 @@
             "shortName": "Super 92",
             "badge": "OGRA Regulated",
             "todayPrice": 390.79,
-            "predictedPrice": 391.27,
-            "expectedDelta": 0.48,
-            "direction": "STABLE",
-            "advice": "Prices stable. Regular filling recommended."
+            "predictedPrice": 392.43,
+            "expectedDelta": 1.64,
+            "direction": "HIKE",
+            "advice": "Fill up before midnight!"
         },
         "diesel": {
             "id": "diesel",
@@ -72,8 +72,8 @@
             "shortName": "Diesel HSD",
             "badge": "Commercial / SUV",
             "todayPrice": 424.92,
-            "predictedPrice": 425.46,
-            "expectedDelta": 0.54,
+            "predictedPrice": 426.76,
+            "expectedDelta": 1.84,
             "direction": "HIKE",
             "advice": "Fill up before midnight!"
         },
@@ -83,8 +83,8 @@
             "shortName": "High Octane 95/97",
             "badge": "Turbo & Luxury",
             "todayPrice": 415.5,
-            "predictedPrice": 416.07,
-            "expectedDelta": 0.57,
+            "predictedPrice": 417.44,
+            "expectedDelta": 1.94,
             "direction": "HIKE",
             "advice": "Fill up before midnight!"
         }
